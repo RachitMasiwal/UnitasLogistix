@@ -127,7 +127,7 @@ export function Navbar() {
                 ) : (
                   <Link href="/signin">
                     <Button className="btn-logistics-primary">
-                      SignIn/SignUp
+                      Login
                     </Button>
                   </Link>
                 )
@@ -198,7 +198,7 @@ export function Navbar() {
                             className="btn-logistics-primary w-full"
                             onClick={() => setIsOpen(false)}
                           >
-                            SignIn/SignUp
+                            Login
                           </Button>
                         </Link>
                       </div>
