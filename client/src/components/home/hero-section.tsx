@@ -33,9 +33,18 @@ export function HeroSection() {
               />
               <motion.span
                 className="block text-yellow-300 text-4xl md:text-5xl lg:text-7xl font-bold leading-tight tracking-tight bg-gradient-to-r from-yellow-300 to-yellow-400 bg-clip-text text-transparent"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 1.5 }}
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: 1.5,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { duration: 0.2 }
+                }}
               >
                 Solutions
               </motion.span>
@@ -43,9 +52,14 @@ export function HeroSection() {
             
             <motion.p
               className="text-xl text-blue-100 mb-8 leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: 0.4,
+                type: "spring",
+                stiffness: 80
+              }}
             >
               Professional freight forwarding, customs clearance, and supply chain management 
               services connecting businesses worldwide with reliable, efficient logistics solutions.

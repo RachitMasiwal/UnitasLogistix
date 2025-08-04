@@ -88,7 +88,7 @@ const services = [
       "Scalable solutions",
       "Strategic locations"
     ],
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"
+    image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400"
   },
   {
     icon: FileText,
