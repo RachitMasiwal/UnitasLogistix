@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -8,15 +8,32 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Truck, Eye, EyeOff } from "lucide-react";
+import { Truck, Eye, EyeOff, RefreshCw } from "lucide-react";
 import { signInSchema, type SignIn } from "@shared/schema";
 import { useSignIn } from "@/hooks/useAuth";
+
+// Generate random validation code (6 chars, excluding confusing characters)
+const generateValidationCode = () => {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Excluding 0, O, I, 1
+  let result = '';
+  for (let i = 0; i < 6; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+};
 
 export default function SignInPage() {
   const [, setLocation] = useLocation();
   const [showPassword, setShowPassword] = useState(false);
+  const [validationCode, setValidationCode] = useState('');
+  const [userCode, setUserCode] = useState('');
   const { toast } = useToast();
   const signInMutation = useSignIn();
+
+  // Generate validation code on component mount
+  useEffect(() => {
+    setValidationCode(generateValidationCode());
+  }, []);
 
   const form = useForm<SignIn>({
     resolver: zodResolver(signInSchema),
@@ -27,7 +44,22 @@ export default function SignInPage() {
     },
   });
 
+  const refreshValidationCode = () => {
+    setValidationCode(generateValidationCode());
+    setUserCode('');
+  };
+
   const onSubmit = async (data: SignIn) => {
+    // Validate the code first
+    if (userCode.toUpperCase() !== validationCode) {
+      toast({
+        variant: "destructive",
+        title: "Validation failed",
+        description: "Please enter the correct validation code",
+      });
+      return;
+    }
+
     try {
       await signInMutation.mutateAsync(data);
       toast({
@@ -102,9 +134,31 @@ export default function SignInPage() {
                 )}
               </div>
 
-              {/* Note: In production, integrate Google reCAPTCHA here */}
-              <div className="bg-gray-50 p-3 rounded-lg text-center text-sm text-gray-600">
-                reCAPTCHA validation (simulated)
+              {/* Validation Code */}
+              <div className="space-y-2">
+                <Label>Validation Code</Label>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 bg-gray-100 border border-gray-300 rounded-lg p-3 font-mono text-lg text-center tracking-widest font-bold text-gray-800">
+                    {validationCode}
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={refreshValidationCode}
+                    className="flex-shrink-0"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                  </Button>
+                </div>
+                <Input
+                  type="text"
+                  placeholder="Enter the code above"
+                  value={userCode}
+                  onChange={(e) => setUserCode(e.target.value.toUpperCase())}
+                  className="h-11 text-center font-mono tracking-widest"
+                  maxLength={6}
+                />
               </div>
 
               <Button
