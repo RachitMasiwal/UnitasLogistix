@@ -38,7 +38,7 @@ export default function SignInPage() {
   const form = useForm<SignIn>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
-      email: "",
+      EmailAddress: "",
       password: "",
       recaptcha: "test-token", // In real app, this would be from reCAPTCHA
     },
@@ -88,7 +88,7 @@ export default function SignInPage() {
           <CardHeader className="text-center pb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
               <Truck className="w-8 h-8 text-blue-600" />
-              <span className="text-xl font-bold text-blue-600">Unitas LogistiX</span>
+              <span className="text-xl font-bold text-blue-600">Unitas LogistiX Inc</span>
             </div>
             <CardTitle className="text-2xl font-bold text-gray-900">Welcome Back</CardTitle>
             <CardDescription className="text-gray-600">
@@ -103,11 +103,11 @@ export default function SignInPage() {
                   id="email"
                   type="email"
                   placeholder="Enter your email"
-                  {...form.register("email")}
+                  {...form.register("EmailAddress")}
                   className="h-11"
                 />
-                {form.formState.errors.email && (
-                  <p className="text-sm text-red-600">{form.formState.errors.email.message}</p>
+                {form.formState.errors.EmailAddress && (
+                  <p className="text-sm text-red-600">{form.formState.errors.EmailAddress.message}</p>
                 )}
               </div>
 

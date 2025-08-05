@@ -3,6 +3,7 @@ import { pgTable, text, varchar, timestamp, integer, boolean, index, jsonb } fro
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+
 // Session storage table for authentication
 export const sessions = pgTable(
   "sessions",
@@ -16,21 +17,24 @@ export const sessions = pgTable(
 
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  email: text("email").notNull().unique(),
+  EmailAddress: text("Email Address").notNull().unique(),
   password: text("password").notNull(),
-  firstName: text("first_name").notNull(),
+  fullName: text("full_name").notNull(),
   companyName: text("company_name").notNull(),
-  phoneNumber: text("phone_number").notNull(),
+  mobileNumber: text("mobile").notNull(),
   einBusinessNumber: text("ein_business_number").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+
+
+
 export const contacts = pgTable("contacts", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
-  email: text("email").notNull(),
-  phone: text("phone"),
+  EmailAddress : text("Email Address").notNull(),
+  mobile: text("mobile"),
   serviceType: text("service_type"),
   message: text("message").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
@@ -40,7 +44,7 @@ export const quotes = pgTable("quotes", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
   email: text("email").notNull(),
-  phone: text("phone"),
+  mobile: text("mobile"),
   serviceType: text("service_type").notNull(),
   origin: text("origin").notNull(),
   destination: text("destination").notNull(),
@@ -74,21 +78,21 @@ export const trackingEvents = pgTable("tracking_events", {
 // Authentication schemas
 export const signUpSchema = createInsertSchema(users)
   .pick({
-    firstName: true,
+    fullName: true,
     companyName: true,
-    phoneNumber: true,
+    mobileNumber: true,
     einBusinessNumber: true,
-    email: true,
+    EmailAddress: true,
     password: true,
   })
   .extend({
     password: z.string().min(8, "Password must be at least 8 characters"),
-    email: z.string().email("Invalid email format"),
+    EmailAddress: z.string().email("Invalid Email Address format"),
     recaptcha: z.string().min(1, "Please complete the reCAPTCHA"),
   });
 
 export const signInSchema = z.object({
-  email: z.string().email("Invalid email format"),
+  EmailAddress: z.string().email("Invalid Email Address format"),
   password: z.string().min(1, "Password is required"),
   recaptcha: z.string().min(1, "Please complete the reCAPTCHA"),
 });
@@ -96,23 +100,23 @@ export const signInSchema = z.object({
 export const getQuoteSchema = z.object({
   name: z.string().min(1, "Name is required"),
   contactNumber: z.string().min(1, "Contact number is required"),
-  email: z.string().email("Invalid email format"),
+  EmailAddress: z.string().email("Invalid Email Address format"),
   companyName: z.string().min(1, "Company name is required"),
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({
-  email: true,
+  EmailAddress: true,
   password: true,
-  firstName: true,
+  fullName: true,
   companyName: true,
-  phoneNumber: true,
+  mobileNumber: true,
   einBusinessNumber: true,
 });
 
 export const insertContactSchema = createInsertSchema(contacts).pick({
   name: true,
-  email: true,
-  phone: true,
+  EmailAddress: true,
+  mobile: true,
   serviceType: true,
   message: true,
 });
@@ -120,7 +124,7 @@ export const insertContactSchema = createInsertSchema(contacts).pick({
 export const insertQuoteSchema = createInsertSchema(quotes).pick({
   name: true,
   email: true,
-  phone: true,
+  mobile: true,
   serviceType: true,
   origin: true,
   destination: true,

@@ -22,6 +22,7 @@ const generateValidationCode = () => {
   return result;
 };
 
+
 export default function SignUpPage() {
   const [, setLocation] = useLocation();
   const [showPassword, setShowPassword] = useState(false);
@@ -38,11 +39,11 @@ export default function SignUpPage() {
   const form = useForm<SignUp>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      firstName: "",
+      fullName: "",
       companyName: "",
-      phoneNumber: "",
+      mobileNumber: "",
       einBusinessNumber: "",
-      email: "",
+      EmailAddress: "",
       password: "",
       recaptcha: "test-token", // In real app, this would be from reCAPTCHA
     },
@@ -68,7 +69,7 @@ export default function SignUpPage() {
       await signUpMutation.mutateAsync(data);
       toast({
         title: "Account created successfully!",
-        description: "Welcome to Unitas LogistiX",
+        description: "Welcome to Unitas LogistiX Inc",
       });
       setLocation("/");
     } catch (error: any) {
@@ -92,7 +93,7 @@ export default function SignUpPage() {
           <CardHeader className="text-center pb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
               <Truck className="w-8 h-8 text-blue-600" />
-              <span className="text-xl font-bold text-blue-600">Unitas LogistiX</span>
+              <span className="text-xl font-bold text-blue-600">Unitas LogistiX Inc </span>
             </div>
             <CardTitle className="text-2xl font-bold text-gray-900">Create Account</CardTitle>
             <CardDescription className="text-gray-600">
@@ -102,16 +103,16 @@ export default function SignUpPage() {
           <CardContent>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
+                <Label htmlFor="fullName">Full Name</Label>
                 <Input
-                  id="firstName"
+                  id="fullName"
                   type="text"
-                  placeholder="Enter your first name"
-                  {...form.register("firstName")}
+                  placeholder="Enter your full name"
+                  {...form.register("fullName")}
                   className="h-11"
                 />
-                {form.formState.errors.firstName && (
-                  <p className="text-sm text-red-600">{form.formState.errors.firstName.message}</p>
+                {form.formState.errors.fullName && (
+                  <p className="text-sm text-red-600">{form.formState.errors.fullName.message}</p>
                 )}
               </div>
 
@@ -127,23 +128,10 @@ export default function SignUpPage() {
                 {form.formState.errors.companyName && (
                   <p className="text-sm text-red-600">{form.formState.errors.companyName.message}</p>
                 )}
+
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="phoneNumber">Phone Number</Label>
-                <Input
-                  id="phoneNumber"
-                  type="tel"
-                  placeholder="Enter your phone number"
-                  {...form.register("phoneNumber")}
-                  className="h-11"
-                />
-                {form.formState.errors.phoneNumber && (
-                  <p className="text-sm text-red-600">{form.formState.errors.phoneNumber.message}</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
+               <div className="space-y-2">
                 <Label htmlFor="einBusinessNumber">EIN / Business Number</Label>
                 <Input
                   id="einBusinessNumber"
@@ -158,16 +146,31 @@ export default function SignUpPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="mobileNumber">Mobile Number</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  {...form.register("email")}
+                  id="mobileNumber"
+                  type="tel"
+                  placeholder="Enter your mobile number"
+                  {...form.register("mobileNumber")}
                   className="h-11"
                 />
-                {form.formState.errors.email && (
-                  <p className="text-sm text-red-600">{form.formState.errors.email.message}</p>
+                {form.formState.errors.mobileNumber && (
+                  <p className="text-sm text-red-600">{form.formState.errors.mobileNumber.message}</p>
+                )}
+              </div>
+
+             
+              <div className="space-y-2">
+                <Label htmlFor="Email Address">Email Address</Label>
+                <Input
+                  id="Email Address"
+                  type="Email Address"
+                  placeholder="Enter your Email Address"
+                  {...form.register("EmailAddress")}
+                  className="h-11"
+                />
+                {form.formState.errors.EmailAddress && (
+                  <p className="text-sm text-red-600">{form.formState.errors.EmailAddress.message}</p>
                 )}
               </div>
 

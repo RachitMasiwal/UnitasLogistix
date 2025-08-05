@@ -64,7 +64,7 @@ export function Navbar() {
               whileTap={{ scale: 0.95 }}
             >
               <Truck className="w-8 h-8" />
-              Unitas LogistiX
+              Unitas LogistiX Inc
             </motion.div>
           </Link>
 
@@ -109,10 +109,10 @@ export function Navbar() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
                       <div className="px-2 py-1.5 text-sm font-medium text-gray-900">
-                        {user?.firstName || "User"}
+                        {user?.fullName || "User"}
                       </div>
                       <div className="px-2 py-1.5 text-xs text-gray-500">
-                        {user?.email}
+                        {user?.EmailAddress}
                       </div>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem 
@@ -174,10 +174,10 @@ export function Navbar() {
                     isAuthenticated ? (
                       <div className="border-t pt-4 mt-4">
                         <div className="px-4 py-2 text-sm font-medium text-gray-900">
-                          {user?.firstName || "User"}
+                          {user?.fullName || "User"}
                         </div>
                         <div className="px-4 py-1 text-xs text-gray-500">
-                          {user?.email}
+                          {user?.EmailAddress}
                         </div>
                         <Button 
                           variant="ghost" 
