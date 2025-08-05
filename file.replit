@@ -1,0 +1,5 @@
+run = "npm run dev"
+language = "nodejs"
+
+[env]
+PORT = "3000"
